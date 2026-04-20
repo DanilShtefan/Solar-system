@@ -779,6 +779,28 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
 ;
 ;
 ;
+const planetDistances = {
+    mercury: 8,
+    venus: 12,
+    earth: 18,
+    mars: 24,
+    jupiter: 35,
+    saturn: 48,
+    uranus: 62,
+    neptune: 75,
+    pluto: 88
+};
+const planetSizes = {
+    mercury: 0.4,
+    venus: 0.9,
+    earth: 1,
+    mars: 0.5,
+    jupiter: 2.5,
+    saturn: 2.1,
+    uranus: 1.4,
+    neptune: 1.3,
+    pluto: 0.3
+};
 const planetData = {
     mercury: {
         name: 'Меркурий',
@@ -869,7 +891,7 @@ function OrbitController({ targetPlanet }) {
         maxDistance: 150
     }, void 0, false, {
         fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 49,
+        lineNumber: 59,
         columnNumber: 5
     }, this);
 }
@@ -883,13 +905,31 @@ function GlobeScene() {
     _s1();
     const [selectedPlanet, setSelectedPlanet] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [targetPlanet, setTargetPlanet] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [asteroidActive, setAsteroidActive] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [explosionActive, setExplosionActive] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const handleSelect = (name, description)=>{
         setSelectedPlanet(selectedPlanet === name ? null : name);
         setTargetPlanet(null);
+        setAsteroidActive(false);
+        setExplosionActive(false);
     };
     const handleGoTo = (name)=>{
         setTargetPlanet(name);
         setSelectedPlanet(null);
+    };
+    const handleLaunchAsteroid = ()=>{
+        if (selectedPlanet && selectedPlanet !== 'pluto') {
+            setAsteroidActive(true);
+            setExplosionActive(false);
+        }
+    };
+    const handleResetAsteroid = ()=>{
+        setAsteroidActive(false);
+        setExplosionActive(false);
+    };
+    const handleImpact = ()=>{
+        setAsteroidActive(false);
+        setExplosionActive(true);
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
@@ -918,7 +958,7 @@ function GlobeScene() {
                         intensity: 0.1
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 72,
+                        lineNumber: 103,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pointLight", {
@@ -932,7 +972,7 @@ function GlobeScene() {
                         color: "#ffffff"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 73,
+                        lineNumber: 104,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Stars$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Stars"], {
@@ -945,12 +985,12 @@ function GlobeScene() {
                         speed: 1
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 75,
+                        lineNumber: 106,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Sun$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 77,
+                        lineNumber: 108,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -958,7 +998,7 @@ function GlobeScene() {
                         color: "#666666"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 79,
+                        lineNumber: 110,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -973,7 +1013,7 @@ function GlobeScene() {
                         textureUrl: "/textures/Mercury/mercury.jpg"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 80,
+                        lineNumber: 111,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -981,7 +1021,7 @@ function GlobeScene() {
                         color: "#665533"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 82,
+                        lineNumber: 113,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -996,7 +1036,7 @@ function GlobeScene() {
                         textureUrl: "/textures/Venus/venus_surface.jpg"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 83,
+                        lineNumber: 114,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1004,7 +1044,7 @@ function GlobeScene() {
                         color: "#334466"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 85,
+                        lineNumber: 116,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1019,7 +1059,7 @@ function GlobeScene() {
                         textureUrl: "/textures/Earth/earth.jpg"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 86,
+                        lineNumber: 117,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1027,7 +1067,7 @@ function GlobeScene() {
                         color: "#553322"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 88,
+                        lineNumber: 119,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1042,7 +1082,7 @@ function GlobeScene() {
                         textureUrl: "/textures/Mars/8k_mars.jpg"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 89,
+                        lineNumber: 120,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1050,7 +1090,7 @@ function GlobeScene() {
                         color: "#554433"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 91,
+                        lineNumber: 122,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1065,7 +1105,7 @@ function GlobeScene() {
                         textureUrl: "/textures/Jupiter/jupiter.jpg"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 92,
+                        lineNumber: 123,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1073,7 +1113,7 @@ function GlobeScene() {
                         color: "#aa9977"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 94,
+                        lineNumber: 125,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1089,7 +1129,7 @@ function GlobeScene() {
                         ringTextureUrl: "/textures/Saturn/saturn_ring_alpha.png"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 95,
+                        lineNumber: 126,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1097,7 +1137,7 @@ function GlobeScene() {
                         color: "#6699cc"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 97,
+                        lineNumber: 128,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1112,7 +1152,7 @@ function GlobeScene() {
                         textureUrl: "/textures/Uranus/uranus.jpg"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 98,
+                        lineNumber: 129,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1120,7 +1160,7 @@ function GlobeScene() {
                         color: "#4466aa"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 100,
+                        lineNumber: 131,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1135,7 +1175,7 @@ function GlobeScene() {
                         textureUrl: "/textures/Neptune/neptune.jpg"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 101,
+                        lineNumber: 132,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1143,7 +1183,7 @@ function GlobeScene() {
                         color: "#887766"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 103,
+                        lineNumber: 134,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1157,20 +1197,20 @@ function GlobeScene() {
                         isSelected: selectedPlanet === 'pluto'
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 104,
+                        lineNumber: 135,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitController, {
                         targetPlanet: targetPlanet
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 106,
+                        lineNumber: 137,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 71,
+                lineNumber: 102,
                 columnNumber: 7
             }, this),
             selectedPlanet && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1196,7 +1236,7 @@ function GlobeScene() {
                         children: planetData[selectedPlanet].name
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 111,
+                        lineNumber: 142,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1207,7 +1247,7 @@ function GlobeScene() {
                         children: planetData[selectedPlanet].description
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 112,
+                        lineNumber: 143,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1226,13 +1266,13 @@ function GlobeScene() {
                         children: "Перейти к планете"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 113,
+                        lineNumber: 144,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 110,
+                lineNumber: 141,
                 columnNumber: 9
             }, this),
             targetPlanet && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1255,17 +1295,17 @@ function GlobeScene() {
                 children: "Вернуться к Солнцу"
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 120,
+                lineNumber: 151,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 70,
+        lineNumber: 101,
         columnNumber: 5
     }, this);
 }
-_s1(GlobeScene, "+XdVfFWfW7t4N6CZiyxv99rbADM=");
+_s1(GlobeScene, "Ph7f4q1MoIOuGplxDUr/w63bL1Y=");
 _c1 = GlobeScene;
 function OrbitLine({ distance, color }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
@@ -1283,7 +1323,7 @@ function OrbitLine({ distance, color }) {
                 ]
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 131,
+                lineNumber: 162,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
@@ -1293,13 +1333,13 @@ function OrbitLine({ distance, color }) {
                 side: 2
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 132,
+                lineNumber: 163,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 130,
+        lineNumber: 161,
         columnNumber: 5
     }, this);
 }

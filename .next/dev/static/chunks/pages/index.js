@@ -9,7 +9,7 @@ __turbopack_load_page_chunks__("/", [
   "static/chunks/node_modules_three_build_three_module_0r8fim5.js",
   "static/chunks/node_modules_@react-three_fiber_dist_03kjb8u._.js",
   "static/chunks/node_modules_0jtuhbn._.js",
-  "static/chunks/[root-of-the-server]__0ndi6ob._.js",
+  "static/chunks/[root-of-the-server]__082xwnd._.js",
   "static/chunks/pages_index_07xvfw~._.js",
-  "static/chunks/turbopack-pages_index_0opnd9o._.js"
+  "static/chunks/turbopack-pages_index_0o1s_dn._.js"
 ])

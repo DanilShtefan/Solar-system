@@ -13,13 +13,16 @@ interface PlanetProps {
   isSelected: boolean;
   textureUrl?: string;
   ringTextureUrl?: string;
+  paused?: boolean;
+  pauseTimeRef?: React.MutableRefObject<number>;
+  resumeTimeRef?: React.MutableRefObject<number>;
 }
 
 const planetNames: Record<string, string> = {
   mercury: 'Меркурий', venus: 'Венера', earth: 'Земля', mars: 'Марс', jupiter: 'Юпитер', saturn: 'Сатурн', uranus: 'Уран', neptune: 'Нептун', pluto: 'Плутон'
 };
 
-function Planet({ name, distance, speed, size, color, description, onSelect, isSelected, textureUrl, ringTextureUrl }: PlanetProps) {
+function Planet({ name, distance, speed, size, color, description, onSelect, isSelected, textureUrl, ringTextureUrl, paused, pauseTimeRef, resumeTimeRef }: PlanetProps) {
   const groupRef = useRef<any>(null);
   const [hovered, setHovered] = useState(false);
 
@@ -29,8 +32,16 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
   useFrame(({ clock }) => {
     if (groupRef.current) {
       const t = clock.getElapsedTime();
-      groupRef.current.position.x = Math.sin(t * speed) * distance;
-      groupRef.current.position.z = Math.cos(t * speed) * distance;
+      let effectiveTime: number;
+      if (paused) {
+        effectiveTime = pauseTimeRef ? pauseTimeRef.current : t;
+      } else if (resumeTimeRef && resumeTimeRef.current !== 0) {
+        effectiveTime = resumeTimeRef.current;
+      } else {
+        effectiveTime = t;
+      }
+      groupRef.current.position.x = Math.sin(effectiveTime * speed) * distance;
+      groupRef.current.position.z = Math.cos(effectiveTime * speed) * distance;
     }
   });
 
