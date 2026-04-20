@@ -77,31 +77,31 @@ export default function GlobeScene() {
         <Sun />
         
         <OrbitLine distance={8} color="#666666" />
-        <Planet name="mercury" distance={8} speed={0.8} size={0.4} color="#aaaaaa" description={planetData.mercury.description} onSelect={handleSelect} isSelected={selectedPlanet === 'mercury'} textureUrl={textures.mercury} />
+        <Planet name="mercury" distance={8} speed={0.8} size={0.4} color="#aaaaaa" description={planetData.mercury.description} onSelect={handleSelect} isSelected={selectedPlanet === 'mercury'} textureUrl="/textures/Mercury/mercury.jpg" />
         
         <OrbitLine distance={12} color="#665533" />
-        <Planet name="venus" distance={12} speed={0.5} size={0.9} color="#ddcc88" description={planetData.venus.description} onSelect={handleSelect} isSelected={selectedPlanet === 'venus'} textureUrl={textures.venus} />
+        <Planet name="venus" distance={12} speed={0.5} size={0.9} color="#ddcc88" description={planetData.venus.description} onSelect={handleSelect} isSelected={selectedPlanet === 'venus'} textureUrl="/textures/Venus/venus_surface.jpg" />
         
         <OrbitLine distance={18} color="#334466" />
-        <Planet name="earth" distance={18} speed={0.3} size={1} color="#2266cc" description={planetData.earth.description} onSelect={handleSelect} isSelected={selectedPlanet === 'earth'} textureUrl={textures.earth} />
+        <Planet name="earth" distance={18} speed={0.3} size={1} color="#2266cc" description={planetData.earth.description} onSelect={handleSelect} isSelected={selectedPlanet === 'earth'} textureUrl="/textures/Earth/earth.jpg" />
         
         <OrbitLine distance={24} color="#553322" />
-        <Planet name="mars" distance={24} speed={0.2} size={0.5} color="#dd4422" description={planetData.mars.description} onSelect={handleSelect} isSelected={selectedPlanet === 'mars'} textureUrl={textures.mars} />
+        <Planet name="mars" distance={24} speed={0.2} size={0.5} color="#dd4422" description={planetData.mars.description} onSelect={handleSelect} isSelected={selectedPlanet === 'mars'} textureUrl="/textures/Mars/8k_mars.jpg" />
         
         <OrbitLine distance={35} color="#554433" />
-        <Planet name="jupiter" distance={35} speed={0.1} size={2.5} color="#ddaa77" description={planetData.jupiter.description} onSelect={handleSelect} isSelected={selectedPlanet === 'jupiter'} textureUrl={textures.jupiter} />
+        <Planet name="jupiter" distance={35} speed={0.1} size={2.5} color="#ddaa77" description={planetData.jupiter.description} onSelect={handleSelect} isSelected={selectedPlanet === 'jupiter'} textureUrl="/textures/Jupiter/jupiter.jpg" />
         
         <OrbitLine distance={48} color="#aa9977" />
-        <Planet name="saturn" distance={48} speed={0.07} size={2.1} color="#eedd99" description={planetData.saturn.description} onSelect={handleSelect} isSelected={selectedPlanet === 'saturn'} textureUrl={textures.saturn} ringTextureUrl={ringTextures.saturn} />
+        <Planet name="saturn" distance={48} speed={0.07} size={2.1} color="#eedd99" description={planetData.saturn.description} onSelect={handleSelect} isSelected={selectedPlanet === 'saturn'} textureUrl="/textures/Saturn/saturn.jpg" ringTextureUrl="/textures/Saturn/saturn_ring_alpha.png" />
         
         <OrbitLine distance={62} color="#6699cc" />
-        <Planet name="uranus" distance={62} speed={0.05} size={1.4} color="#88ddff" description={planetData.uranus.description} onSelect={handleSelect} isSelected={selectedPlanet === 'uranus'} textureUrl={textures.uranus} />
+        <Planet name="uranus" distance={62} speed={0.05} size={1.4} color="#88ddff" description={planetData.uranus.description} onSelect={handleSelect} isSelected={selectedPlanet === 'uranus'} textureUrl="/textures/Uranus/uranus.jpg" />
         
         <OrbitLine distance={75} color="#4466aa" />
-        <Planet name="neptune" distance={75} speed={0.04} size={1.3} color="#4466ff" description={planetData.neptune.description} onSelect={handleSelect} isSelected={selectedPlanet === 'neptune'} textureUrl={textures.neptune} />
+        <Planet name="neptune" distance={75} speed={0.04} size={1.3} color="#4466ff" description={planetData.neptune.description} onSelect={handleSelect} isSelected={selectedPlanet === 'neptune'} textureUrl="/textures/Neptune/neptune.jpg" />
         
         <OrbitLine distance={88} color="#887766" />
-        <Planet name="pluto" distance={88} speed={0.03} size={0.3} color="#ccaa88" description={planetData.pluto.description} onSelect={handleSelect} isSelected={selectedPlanet === 'pluto'} textureUrl={textures.pluto} />
+        <Planet name="pluto" distance={88} speed={0.03} size={0.3} color="#ccaa88" description={planetData.pluto.description} onSelect={handleSelect} isSelected={selectedPlanet === 'pluto'} />
         
         <OrbitController targetPlanet={targetPlanet} />
       </Canvas>

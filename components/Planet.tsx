@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
+import { Html, useTexture } from '@react-three/drei';
 
 interface PlanetProps {
   name: string;
@@ -11,15 +11,20 @@ interface PlanetProps {
   description: string;
   onSelect: (name: string, description: string) => void;
   isSelected: boolean;
+  textureUrl?: string;
+  ringTextureUrl?: string;
 }
 
 const planetNames: Record<string, string> = {
   mercury: 'Меркурий', venus: 'Венера', earth: 'Земля', mars: 'Марс', jupiter: 'Юпитер', saturn: 'Сатурн', uranus: 'Уран', neptune: 'Нептун', pluto: 'Плутон'
 };
 
-function Planet({ name, distance, speed, size, color, description, onSelect, isSelected }: PlanetProps) {
+function Planet({ name, distance, speed, size, color, description, onSelect, isSelected, textureUrl, ringTextureUrl }: PlanetProps) {
   const groupRef = useRef<any>(null);
   const [hovered, setHovered] = useState(false);
+
+  const texture = textureUrl ? useTexture(textureUrl) : null;
+  const ringTexture = ringTextureUrl ? useTexture(ringTextureUrl) : null;
 
   useFrame(({ clock }) => {
     if (groupRef.current) {
@@ -33,12 +38,20 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
     <group ref={groupRef}>
       <mesh onClick={() => onSelect(name, description)} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}>
         <sphereGeometry args={[size, 64, 64]} />
-        <meshStandardMaterial color={color} roughness={0.6} metalness={0.1} emissive={isSelected ? color : hovered ? '#222222' : '#000000'} emissiveIntensity={isSelected ? 0.3 : 0} />
+        {texture ? (
+          <meshStandardMaterial map={texture} roughness={0.6} metalness={0.1} emissive={isSelected ? '#ffffff' : hovered ? '#222222' : '#000000'} emissiveIntensity={isSelected ? 0.2 : 0} />
+        ) : (
+          <meshStandardMaterial color={color} roughness={0.6} metalness={0.1} emissive={isSelected ? color : hovered ? '#222222' : '#000000'} emissiveIntensity={isSelected ? 0.3 : 0} />
+        )}
       </mesh>
       {name === 'saturn' && (
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <ringGeometry args={[size * 1.3, size * 2.3, 64]} />
-          <meshBasicMaterial color="#aa8866" transparent opacity={0.6} side={2} />
+          {ringTexture ? (
+            <meshBasicMaterial map={ringTexture} transparent opacity={0.8} side={2} />
+          ) : (
+            <meshBasicMaterial color="#aa8866" transparent opacity={0.6} side={2} />
+          )}
         </mesh>
       )}
       <Html position={[size + 1, 0, 0]} center distanceFactor={12}>
