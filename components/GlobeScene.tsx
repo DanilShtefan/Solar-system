@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Stars } from '@react-three/drei';
+import { OrbitControls, Stars, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 import Sun from './Sun';
@@ -33,41 +33,16 @@ const planetData: Record<string, { name: string; description: string }> = {
   pluto: { name: 'Плутон', description: 'Карликовая планета.' }
 };
 
-function OrbitController({ targetPlanet }: { targetPlanet: string | null }) {
-  const controlsRef = useRef<any>(null);
-  const targetRef = useRef(new THREE.Vector3(0, 0, 0));
-
-  useFrame(({ clock }) => {
-    if (targetPlanet && planetDistances[targetPlanet] !== undefined) {
-      const distance = planetDistances[targetPlanet];
-      const speed = planetSpeeds[targetPlanet] || 0.3;
-      const t = clock.getElapsedTime();
-      const x = Math.sin(t * speed) * distance;
-      const z = Math.cos(t * speed) * distance;
-      targetRef.current.set(x, 0, z);
-    } else {
-      targetRef.current.set(0, 0, 0);
-    }
-    if (controlsRef.current) {
-      controlsRef.current.target.copy(targetRef.current);
-      controlsRef.current.update();
-    }
-  });
-
-  return (
-    <OrbitControls ref={controlsRef} enableRotate={true} enableZoom={true} minDistance={3} maxDistance={150} />
-  );
-}
-
 export default function GlobeScene() {
   const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null);
   const [targetPlanet, setTargetPlanet] = useState<string | null>(null);
   const [asteroidActive, setAsteroidActive] = useState(false);
   const [explosionActive, setExplosionActive] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const pauseTimeRef = useRef<number>(0);
-  const resumeTimeRef = useRef<number>(0);
+  
   const clockTimeRef = useRef<number>(0);
+  const explosionPosRef = useRef<THREE.Vector3>(new THREE.Vector3());
+  const asteroidTargetRef = useRef<{ x: number; z: number } | null>(null);
 
   const handleSelect = (name: string, description: string) => {
     setSelectedPlanet(selectedPlanet === name ? null : name);
@@ -81,10 +56,14 @@ export default function GlobeScene() {
     setSelectedPlanet(null);
   };
 
-const handleLaunchAsteroid = () => {
+  const handleLaunchAsteroid = () => {
     if (selectedPlanet && selectedPlanet !== 'pluto') {
-      pauseTimeRef.current = clockTimeRef.current;
-      resumeTimeRef.current = 0;
+      const distance = planetDistances[selectedPlanet];
+      const speed = planetSpeeds[selectedPlanet];
+      const x = Math.sin(clockTimeRef.current * speed) * distance;
+      const z = Math.cos(clockTimeRef.current * speed) * distance;
+      asteroidTargetRef.current = { x, z };
+      explosionPosRef.current.set(x, 0, z);
       setIsPaused(true);
       setAsteroidActive(true);
       setExplosionActive(false);
@@ -92,7 +71,7 @@ const handleLaunchAsteroid = () => {
   };
 
   const handleResetAsteroid = () => {
-    resumeTimeRef.current = pauseTimeRef.current;
+    asteroidTargetRef.current = null;
     setIsPaused(false);
     setAsteroidActive(false);
     setExplosionActive(false);
@@ -103,12 +82,10 @@ const handleLaunchAsteroid = () => {
     setExplosionActive(true);
   };
 
-  
-
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#000000', overflow: 'hidden', margin: 0, padding: 0, position: 'fixed', top: 0, left: 0 }}>
       <Canvas camera={{ position: [0, 50, 90], fov: 50 }}>
-        <TimeTracker timeRef={clockTimeRef} />
+        <TimeTracker timeRef={clockTimeRef} paused={isPaused} />
         <ambientLight intensity={0.1} />
         <pointLight position={[0, 0, 0]} intensity={3} distance={200} color="#ffffff" />
         
@@ -117,49 +94,47 @@ const handleLaunchAsteroid = () => {
         <Sun />
         
         <OrbitLine distance={8} color="#666666" />
-<Planet name="mercury" distance={8} speed={0.8} size={0.4} color="#aaaaaa" description={planetData.mercury.description} onSelect={handleSelect} isSelected={selectedPlanet === 'mercury'} textureUrl="/textures/Mercury/mercury.jpg" paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="mercury" distance={8} speed={0.8} size={0.4} color="#aaaaaa" description={planetData.mercury.description} onSelect={handleSelect} isSelected={selectedPlanet === 'mercury'} textureUrl="/textures/Mercury/mercury.jpg" clockTimeRef={clockTimeRef} />
         
         <OrbitLine distance={12} color="#665533" />
-        <Planet name="venus" distance={12} speed={0.5} size={0.9} color="#ddcc88" description={planetData.venus.description} onSelect={handleSelect} isSelected={selectedPlanet === 'venus'} textureUrl="/textures/Venus/venus_surface.jpg" paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="venus" distance={12} speed={0.5} size={0.9} color="#ddcc88" description={planetData.venus.description} onSelect={handleSelect} isSelected={selectedPlanet === 'venus'} textureUrl="/textures/Venus/venus_surface.jpg" clockTimeRef={clockTimeRef} />
         
         <OrbitLine distance={18} color="#334466" />
-        <Planet name="earth" distance={18} speed={0.3} size={1} color="#2266cc" description={planetData.earth.description} onSelect={handleSelect} isSelected={selectedPlanet === 'earth'} textureUrl="/textures/Earth/earth.jpg" paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="earth" distance={18} speed={0.3} size={1} color="#2266cc" description={planetData.earth.description} onSelect={handleSelect} isSelected={selectedPlanet === 'earth'} textureUrl="/textures/Earth/earth.jpg" clockTimeRef={clockTimeRef} />
         
         <OrbitLine distance={24} color="#553322" />
-        <Planet name="mars" distance={24} speed={0.2} size={0.5} color="#dd4422" description={planetData.mars.description} onSelect={handleSelect} isSelected={selectedPlanet === 'mars'} textureUrl="/textures/Mars/8k_mars.jpg" paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="mars" distance={24} speed={0.2} size={0.5} color="#dd4422" description={planetData.mars.description} onSelect={handleSelect} isSelected={selectedPlanet === 'mars'} textureUrl="/textures/Mars/8k_mars.jpg" clockTimeRef={clockTimeRef} />
         
         <OrbitLine distance={35} color="#554433" />
-        <Planet name="jupiter" distance={35} speed={0.1} size={2.5} color="#ddaa77" description={planetData.jupiter.description} onSelect={handleSelect} isSelected={selectedPlanet === 'jupiter'} textureUrl="/textures/Jupiter/jupiter.jpg" paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="jupiter" distance={35} speed={0.1} size={2.5} color="#ddaa77" description={planetData.jupiter.description} onSelect={handleSelect} isSelected={selectedPlanet === 'jupiter'} textureUrl="/textures/Jupiter/jupiter.jpg" clockTimeRef={clockTimeRef} />
         
         <OrbitLine distance={48} color="#aa9977" />
-        <Planet name="saturn" distance={48} speed={0.07} size={2.1} color="#eedd99" description={planetData.saturn.description} onSelect={handleSelect} isSelected={selectedPlanet === 'saturn'} textureUrl="/textures/Saturn/saturn.jpg" ringTextureUrl="/textures/Saturn/saturn_ring_alpha.png" paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="saturn" distance={48} speed={0.07} size={2.1} color="#eedd99" description={planetData.saturn.description} onSelect={handleSelect} isSelected={selectedPlanet === 'saturn'} textureUrl="/textures/Saturn/saturn.jpg" ringTextureUrl="/textures/Saturn/saturn_ring_alpha.png" clockTimeRef={clockTimeRef} />
         
         <OrbitLine distance={62} color="#6699cc" />
-        <Planet name="uranus" distance={62} speed={0.05} size={1.4} color="#88ddff" description={planetData.uranus.description} onSelect={handleSelect} isSelected={selectedPlanet === 'uranus'} textureUrl="/textures/Uranus/uranus.jpg" paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="uranus" distance={62} speed={0.05} size={1.4} color="#88ddff" description={planetData.uranus.description} onSelect={handleSelect} isSelected={selectedPlanet === 'uranus'} textureUrl="/textures/Uranus/uranus.jpg" clockTimeRef={clockTimeRef} />
         
         <OrbitLine distance={75} color="#4466aa" />
-        <Planet name="neptune" distance={75} speed={0.04} size={1.3} color="#4466ff" description={planetData.neptune.description} onSelect={handleSelect} isSelected={selectedPlanet === 'neptune'} textureUrl="/textures/Neptune/neptune.jpg" paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="neptune" distance={75} speed={0.04} size={1.3} color="#4466ff" description={planetData.neptune.description} onSelect={handleSelect} isSelected={selectedPlanet === 'neptune'} textureUrl="/textures/Neptune/neptune.jpg" clockTimeRef={clockTimeRef} />
         
         <OrbitLine distance={88} color="#887766" />
-        <Planet name="pluto" distance={88} speed={0.03} size={0.3} color="#ccaa88" description={planetData.pluto.description} onSelect={handleSelect} isSelected={selectedPlanet === 'pluto'} paused={isPaused} pauseTimeRef={pauseTimeRef} resumeTimeRef={resumeTimeRef} />
+        <Planet name="pluto" distance={88} speed={0.03} size={0.3} color="#ccaa88" description={planetData.pluto.description} onSelect={handleSelect} isSelected={selectedPlanet === 'pluto'} clockTimeRef={clockTimeRef} />
         
         <OrbitController targetPlanet={targetPlanet} />
         
-        {asteroidActive && selectedPlanet && (
+        {asteroidActive && asteroidTargetRef.current && (
           <Asteroid
-            targetPlanet={selectedPlanet}
-            targetDistance={planetDistances[selectedPlanet] || 18}
+            targetX={asteroidTargetRef.current.x}
+            targetZ={asteroidTargetRef.current.z}
             onImpact={handleImpact}
             active={asteroidActive}
-            pauseTimeRef={pauseTimeRef}
-            targetSpeed={planetSpeeds[selectedPlanet] || 0.3}
           />
         )}
         
-        {explosionActive && selectedPlanet && (
+        {explosionActive && (
           <ExplosionEffect
-            planetDistance={planetDistances[selectedPlanet] || 18}
-            planetSize={planetSizes[selectedPlanet] || 1}
+            explosionPosition={explosionPosRef.current}
+            planetSize={planetSizes[selectedPlanet || 'earth'] || 1}
             active={explosionActive}
           />
         )}
@@ -199,6 +174,32 @@ const handleLaunchAsteroid = () => {
         </button>
       )}
     </div>
+  );
+}
+
+function OrbitController({ targetPlanet }: { targetPlanet: string | null }) {
+  const controlsRef = useRef<any>(null);
+  const targetRef = useRef(new THREE.Vector3(0, 0, 0));
+
+  useFrame(({ clock }) => {
+    if (targetPlanet && planetDistances[targetPlanet] !== undefined) {
+      const distance = planetDistances[targetPlanet];
+      const speed = planetSpeeds[targetPlanet] || 0.3;
+      const t = clock.getElapsedTime();
+      const x = Math.sin(t * speed) * distance;
+      const z = Math.cos(t * speed) * distance;
+      targetRef.current.set(x, 0, z);
+    } else {
+      targetRef.current.set(0, 0, 0);
+    }
+    if (controlsRef.current) {
+      controlsRef.current.target.copy(targetRef.current);
+      controlsRef.current.update();
+    }
+  });
+
+  return (
+    <OrbitControls ref={controlsRef} enableRotate={true} enableZoom={true} minDistance={3} maxDistance={150} />
   );
 }
 

@@ -597,26 +597,18 @@ const planetNames = {
     neptune: 'Нептун',
     pluto: 'Плутон'
 };
-function Planet({ name, distance, speed, size, color, description, onSelect, isSelected, textureUrl, ringTextureUrl, paused, pauseTimeRef, resumeTimeRef }) {
+function Planet({ name, distance, speed, size, color, description, onSelect, isSelected, textureUrl, ringTextureUrl, clockTimeRef }) {
     _s();
     const groupRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const [hovered, setHovered] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const texture = textureUrl ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Texture$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useTexture"])(textureUrl) : null;
     const ringTexture = ringTextureUrl ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Texture$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useTexture"])(ringTextureUrl) : null;
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"])({
-        "Planet.useFrame": ({ clock })=>{
+        "Planet.useFrame": ()=>{
             if (groupRef.current) {
-                const t = clock.getElapsedTime();
-                let effectiveTime;
-                if (paused) {
-                    effectiveTime = pauseTimeRef ? pauseTimeRef.current : t;
-                } else if (resumeTimeRef && resumeTimeRef.current !== 0) {
-                    effectiveTime = resumeTimeRef.current;
-                } else {
-                    effectiveTime = t;
-                }
-                groupRef.current.position.x = Math.sin(effectiveTime * speed) * distance;
-                groupRef.current.position.z = Math.cos(effectiveTime * speed) * distance;
+                const t = clockTimeRef ? clockTimeRef.current : 0;
+                groupRef.current.position.x = Math.sin(t * speed) * distance;
+                groupRef.current.position.z = Math.cos(t * speed) * distance;
             }
         }
     }["Planet.useFrame"]);
@@ -636,7 +628,7 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         ]
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 51,
+                        lineNumber: 41,
                         columnNumber: 9
                     }, this),
                     texture ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshStandardMaterial", {
@@ -647,7 +639,7 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         emissiveIntensity: isSelected ? 0.2 : 0
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 53,
+                        lineNumber: 43,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshStandardMaterial", {
                         color: color,
@@ -657,13 +649,13 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         emissiveIntensity: isSelected ? 0.3 : 0
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 55,
+                        lineNumber: 45,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/Planet.tsx",
-                lineNumber: 50,
+                lineNumber: 40,
                 columnNumber: 7
             }, this),
             name === 'saturn' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
@@ -681,7 +673,7 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         ]
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 60,
+                        lineNumber: 50,
                         columnNumber: 11
                     }, this),
                     ringTexture ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
@@ -691,7 +683,7 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         side: 2
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 62,
+                        lineNumber: 52,
                         columnNumber: 13
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
                         color: "#aa8866",
@@ -700,13 +692,13 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         side: 2
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 64,
+                        lineNumber: 54,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/Planet.tsx",
-                lineNumber: 59,
+                lineNumber: 49,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$web$2f$Html$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Html"], {
@@ -733,18 +725,18 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                     children: planetNames[name] || name
                 }, void 0, false, {
                     fileName: "[project]/components/Planet.tsx",
-                    lineNumber: 69,
+                    lineNumber: 59,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/Planet.tsx",
-                lineNumber: 68,
+                lineNumber: 58,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/Planet.tsx",
-        lineNumber: 49,
+        lineNumber: 39,
         columnNumber: 5
     }, this);
 }
@@ -773,70 +765,192 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/index.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__ = __turbopack_context__.i("[project]/node_modules/@react-three/fiber/dist/events-760a1017.esm.js [client] (ecmascript) <export D as useFrame>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/three/build/three.core.js [client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 ;
 ;
-function Asteroid({ targetPlanet, targetDistance, onImpact, active, pauseTimeRef, targetSpeed }) {
+;
+function Asteroid({ targetX, targetZ, onImpact, active }) {
     _s();
     const meshRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const trailRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const glowRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const startTimeRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(0);
+    const trailLength = 30;
+    const trailPositions = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "Asteroid.useMemo[trailPositions]": ()=>{
+            const positions = new Float32Array(trailLength * 3);
+            for(let i = 0; i < trailLength; i++){
+                positions[i * 3] = 0;
+                positions[i * 3 + 1] = 0;
+                positions[i * 3 + 2] = 90;
+            }
+            return positions;
+        }
+    }["Asteroid.useMemo[trailPositions]"], []);
+    const positionHistory = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])([]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"])({
         "Asteroid.useFrame": ({ clock }, delta)=>{
             if (!active || !meshRef.current) return;
-            const t = clock.getElapsedTime();
-            const frozenT = pauseTimeRef.current;
-            const targetX = Math.sin(frozenT * targetSpeed) * targetDistance;
-            const targetZ = Math.cos(frozenT * targetSpeed) * targetDistance;
-            const elapsed = t - frozenT;
+            if (startTimeRef.current === 0) {
+                startTimeRef.current = clock.getElapsedTime();
+            }
+            const elapsed = clock.getElapsedTime() - startTimeRef.current;
             const progress = Math.min(elapsed * 0.5, 1);
             const startX = 0;
             const startZ = 90;
-            meshRef.current.position.x = startX + (targetX - startX) * progress;
-            meshRef.current.position.z = startZ + (targetZ - startZ) * progress;
+            const currentX = startX + (targetX - startX) * progress;
+            const currentZ = startZ + (targetZ - startZ) * progress;
+            meshRef.current.position.x = currentX;
+            meshRef.current.position.z = currentZ;
             meshRef.current.rotation.x += delta * 3;
             meshRef.current.rotation.y += delta * 2;
-            const distanceToTarget = Math.sqrt(Math.pow(meshRef.current.position.x - targetX, 2) + Math.pow(meshRef.current.position.z - targetZ, 2));
+            positionHistory.current.unshift(new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Vector3"](currentX, 0, currentZ));
+            if (positionHistory.current.length > trailLength) {
+                positionHistory.current.pop();
+            }
+            if (trailRef.current) {
+                const positions = trailRef.current.geometry.attributes.position.array;
+                for(let i = 0; i < positionHistory.current.length; i++){
+                    positions[i * 3] = positionHistory.current[i].x;
+                    positions[i * 3 + 1] = positionHistory.current[i].y;
+                    positions[i * 3 + 2] = positionHistory.current[i].z;
+                }
+                trailRef.current.geometry.attributes.position.needsUpdate = true;
+            }
+            if (glowRef.current) {
+                glowRef.current.position.copy(meshRef.current.position);
+                glowRef.current.rotation.x = meshRef.current.rotation.x;
+                glowRef.current.rotation.y = meshRef.current.rotation.y;
+            }
+            const distanceToTarget = Math.sqrt(Math.pow(currentX - targetX, 2) + Math.pow(currentZ - targetZ, 2));
             if (distanceToTarget < 1) {
+                startTimeRef.current = 0;
                 onImpact();
             }
         }
     }["Asteroid.useFrame"]);
     if (!active) return null;
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
-        ref: meshRef,
-        position: [
-            0,
-            0,
-            90
-        ],
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("dodecahedronGeometry", {
-                args: [
-                    1.5,
-                    0
-                ]
-            }, void 0, false, {
-                fileName: "[project]/components/Asteroid.tsx",
-                lineNumber: 50,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshStandardMaterial", {
-                color: "#888888",
-                roughness: 0.9,
-                metalness: 0.3
-            }, void 0, false, {
-                fileName: "[project]/components/Asteroid.tsx",
-                lineNumber: 51,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/components/Asteroid.tsx",
-        lineNumber: 49,
-        columnNumber: 5
-    }, this);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Fragment"], {
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("group", {
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("points", {
+                    ref: trailRef,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("bufferGeometry", {
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("bufferAttribute", {
+                                attach: "attributes-position",
+                                count: trailLength,
+                                array: trailPositions,
+                                itemSize: 3
+                            }, void 0, false, {
+                                fileName: "[project]/components/Asteroid.tsx",
+                                lineNumber: 91,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/components/Asteroid.tsx",
+                            lineNumber: 90,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pointsMaterial", {
+                            size: 0.8,
+                            color: "#ff6633",
+                            transparent: true,
+                            opacity: 0.7,
+                            blending: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["AdditiveBlending"],
+                            depthWrite: false
+                        }, void 0, false, {
+                            fileName: "[project]/components/Asteroid.tsx",
+                            lineNumber: 98,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/Asteroid.tsx",
+                    lineNumber: 89,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                    ref: glowRef,
+                    position: [
+                        0,
+                        0,
+                        90
+                    ],
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("sphereGeometry", {
+                            args: [
+                                2.5,
+                                16,
+                                16
+                            ]
+                        }, void 0, false, {
+                            fileName: "[project]/components/Asteroid.tsx",
+                            lineNumber: 109,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
+                            color: "#ff4400",
+                            transparent: true,
+                            opacity: 0.15,
+                            side: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["BackSide"]
+                        }, void 0, false, {
+                            fileName: "[project]/components/Asteroid.tsx",
+                            lineNumber: 110,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/Asteroid.tsx",
+                    lineNumber: 108,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                    ref: meshRef,
+                    position: [
+                        0,
+                        0,
+                        90
+                    ],
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("dodecahedronGeometry", {
+                            args: [
+                                1.5,
+                                0
+                            ]
+                        }, void 0, false, {
+                            fileName: "[project]/components/Asteroid.tsx",
+                            lineNumber: 119,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshStandardMaterial", {
+                            color: "#888888",
+                            roughness: 0.9,
+                            metalness: 0.3,
+                            emissive: "#ff3300",
+                            emissiveIntensity: 0.3
+                        }, void 0, false, {
+                            fileName: "[project]/components/Asteroid.tsx",
+                            lineNumber: 120,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/components/Asteroid.tsx",
+                    lineNumber: 118,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/components/Asteroid.tsx",
+            lineNumber: 88,
+            columnNumber: 7
+        }, this)
+    }, void 0, false);
 }
-_s(Asteroid, "/vg1AmA8+P3+Fj0/y210JTVKtL0=", false, function() {
+_s(Asteroid, "2TN2wiqZpqQRS8cgwh9XN+Ce8GA=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"]
     ];
@@ -864,73 +978,292 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-function ExplosionEffect({ planetDistance, planetSize, active }) {
+function ExplosionEffect({ explosionPosition, planetSize, active }) {
     _s();
-    const ringRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
-    const [scale, setScale] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [opacity, setOpacity] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(1);
+    const shockwaveRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const innerRingRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const particlesRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const flashRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const startTime = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(0);
+    const particleCount = 200;
+    const particleData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "ExplosionEffect.useMemo[particleData]": ()=>{
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+            for(let i = 0; i < particleCount; i++){
+                positions[i * 3] = 0;
+                positions[i * 3 + 1] = 0;
+                positions[i * 3 + 2] = 0;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.random() * Math.PI;
+                const speed = 2 + Math.random() * 8;
+                velocities[i * 3] = Math.sin(phi) * Math.cos(theta) * speed;
+                velocities[i * 3 + 1] = Math.sin(phi) * Math.sin(theta) * speed;
+                velocities[i * 3 + 2] = Math.cos(phi) * speed;
+                const colorChoice = Math.random();
+                if (colorChoice < 0.4) {
+                    colors[i * 3] = 1;
+                    colors[i * 3 + 1] = 0.3;
+                    colors[i * 3 + 2] = 0;
+                } else if (colorChoice < 0.7) {
+                    colors[i * 3] = 1;
+                    colors[i * 3 + 1] = 0.6;
+                    colors[i * 3 + 2] = 0.1;
+                } else if (colorChoice < 0.9) {
+                    colors[i * 3] = 1;
+                    colors[i * 3 + 1] = 0.9;
+                    colors[i * 3 + 2] = 0.3;
+                } else {
+                    colors[i * 3] = 0.8;
+                    colors[i * 3 + 1] = 0.8;
+                    colors[i * 3 + 2] = 0.9;
+                }
+                sizes[i] = 0.3 + Math.random() * 0.7;
+            }
+            return {
+                positions,
+                velocities,
+                colors,
+                sizes
+            };
+        }
+    }["ExplosionEffect.useMemo[particleData]"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"])({
         "ExplosionEffect.useFrame": ({ clock })=>{
-            if (!active || !ringRef.current) return;
+            if (!active) return;
             const t = clock.getElapsedTime();
             if (startTime.current === 0) {
                 startTime.current = t;
-                setScale(0);
-                setOpacity(1);
             }
             const elapsed = t - startTime.current;
-            const newScale = elapsed * 15;
-            const newOpacity = Math.max(0, 1 - elapsed * 0.8);
-            setScale(newScale);
-            setOpacity(newOpacity);
-            ringRef.current.scale.set(newScale, newScale, newScale);
-            ringRef.current.material.opacity = newOpacity;
+            const duration = 3;
+            if (elapsed < duration) {
+                if (shockwaveRef.current) {
+                    const progress = elapsed / 1.5;
+                    const scale = planetSize * (0.8 + progress * 3);
+                    shockwaveRef.current.scale.set(scale, scale, scale);
+                    shockwaveRef.current.material.opacity = Math.max(0, 1 - progress * 0.8);
+                }
+                if (innerRingRef.current) {
+                    const progress = elapsed / 1.2;
+                    const scale = planetSize * (0.5 + progress * 1.5);
+                    innerRingRef.current.scale.set(scale, scale, scale);
+                    innerRingRef.current.material.opacity = Math.max(0, 1 - progress);
+                }
+                if (particlesRef.current) {
+                    const positions = particlesRef.current.geometry.attributes.position.array;
+                    for(let i = 0; i < particleCount; i++){
+                        const vx = particleData.velocities[i * 3];
+                        const vy = particleData.velocities[i * 3 + 1];
+                        const vz = particleData.velocities[i * 3 + 2];
+                        positions[i * 3] += vx * 0.016 * Math.min(elapsed * 2, 1);
+                        positions[i * 3 + 1] += vy * 0.016 * Math.min(elapsed * 2, 1);
+                        positions[i * 3 + 2] += vz * 0.016 * Math.min(elapsed * 2, 1);
+                        particleData.velocities[i * 3] *= 0.98;
+                        particleData.velocities[i * 3 + 1] *= 0.98;
+                        particleData.velocities[i * 3 + 2] *= 0.98;
+                    }
+                    particlesRef.current.geometry.attributes.position.needsUpdate = true;
+                }
+                if (flashRef.current) {
+                    const flashProgress = elapsed / 0.15;
+                    flashRef.current.intensity = flashProgress < 1 ? 50 * (1 - flashProgress) : Math.max(0, 10 - elapsed * 5);
+                }
+            }
         }
     }["ExplosionEffect.useFrame"]);
     if (!active) return null;
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
-        ref: ringRef,
-        rotation: [
-            Math.PI / 2,
-            0,
-            0
-        ],
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("group", {
         position: [
-            0,
-            0,
-            planetDistance
+            explosionPosition.x,
+            explosionPosition.y,
+            explosionPosition.z
         ],
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ringGeometry", {
-                args: [
-                    planetSize * 0.9,
-                    planetSize * 1.1,
-                    32
-                ]
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pointLight", {
+                ref: flashRef,
+                position: [
+                    0,
+                    0,
+                    0
+                ],
+                color: "#ffaa00",
+                intensity: 50,
+                distance: 20
             }, void 0, false, {
                 fileName: "[project]/components/ExplosionEffect.tsx",
-                lineNumber: 42,
+                lineNumber: 109,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
-                color: "#ff6600",
-                transparent: true,
-                opacity: opacity,
-                side: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["DoubleSide"]
-            }, void 0, false, {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                ref: shockwaveRef,
+                rotation: [
+                    Math.PI / 2,
+                    0,
+                    0
+                ],
+                position: [
+                    0,
+                    0,
+                    0
+                ],
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ringGeometry", {
+                        args: [
+                            0.9,
+                            1.0,
+                            64
+                        ]
+                    }, void 0, false, {
+                        fileName: "[project]/components/ExplosionEffect.tsx",
+                        lineNumber: 118,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
+                        color: "#ff4400",
+                        transparent: true,
+                        opacity: 1,
+                        side: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["DoubleSide"],
+                        blending: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["AdditiveBlending"]
+                    }, void 0, false, {
+                        fileName: "[project]/components/ExplosionEffect.tsx",
+                        lineNumber: 119,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/components/ExplosionEffect.tsx",
-                lineNumber: 43,
+                lineNumber: 117,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                ref: innerRingRef,
+                rotation: [
+                    Math.PI / 2,
+                    0,
+                    0
+                ],
+                position: [
+                    0,
+                    0,
+                    0
+                ],
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ringGeometry", {
+                        args: [
+                            0.7,
+                            0.85,
+                            64
+                        ]
+                    }, void 0, false, {
+                        fileName: "[project]/components/ExplosionEffect.tsx",
+                        lineNumber: 129,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
+                        color: "#ffdd44",
+                        transparent: true,
+                        opacity: 1,
+                        side: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["DoubleSide"],
+                        blending: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["AdditiveBlending"]
+                    }, void 0, false, {
+                        fileName: "[project]/components/ExplosionEffect.tsx",
+                        lineNumber: 130,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/ExplosionEffect.tsx",
+                lineNumber: 128,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("points", {
+                ref: particlesRef,
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("bufferGeometry", {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("bufferAttribute", {
+                                attach: "attributes-position",
+                                count: particleCount,
+                                array: particleData.positions,
+                                itemSize: 3
+                            }, void 0, false, {
+                                fileName: "[project]/components/ExplosionEffect.tsx",
+                                lineNumber: 141,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("bufferAttribute", {
+                                attach: "attributes-color",
+                                count: particleCount,
+                                array: particleData.colors,
+                                itemSize: 3
+                            }, void 0, false, {
+                                fileName: "[project]/components/ExplosionEffect.tsx",
+                                lineNumber: 147,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/components/ExplosionEffect.tsx",
+                        lineNumber: 140,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pointsMaterial", {
+                        size: 0.5,
+                        vertexColors: true,
+                        transparent: true,
+                        opacity: 0.9,
+                        blending: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["AdditiveBlending"],
+                        depthWrite: false
+                    }, void 0, false, {
+                        fileName: "[project]/components/ExplosionEffect.tsx",
+                        lineNumber: 154,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/ExplosionEffect.tsx",
+                lineNumber: 139,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("sphereGeometry", {
+                        args: [
+                            planetSize * 0.3,
+                            16,
+                            16
+                        ]
+                    }, void 0, false, {
+                        fileName: "[project]/components/ExplosionEffect.tsx",
+                        lineNumber: 165,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
+                        color: "#ff6600",
+                        transparent: true,
+                        opacity: 0.6
+                    }, void 0, false, {
+                        fileName: "[project]/components/ExplosionEffect.tsx",
+                        lineNumber: 166,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/ExplosionEffect.tsx",
+                lineNumber: 164,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/ExplosionEffect.tsx",
-        lineNumber: 41,
+        lineNumber: 108,
         columnNumber: 5
     }, this);
 }
-_s(ExplosionEffect, "/m3WoELSuyHvMjqY4SIvVhk3zeg=", false, function() {
+_s(ExplosionEffect, "IXuRkANut/xbr9CijEawBypycLg=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"]
     ];
@@ -949,19 +1282,35 @@ __turbopack_context__.s([
     "default",
     ()=>TimeTracker
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/index.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__ = __turbopack_context__.i("[project]/node_modules/@react-three/fiber/dist/events-760a1017.esm.js [client] (ecmascript) <export D as useFrame>");
 var _s = __turbopack_context__.k.signature();
 ;
-function TimeTracker({ timeRef }) {
+;
+function TimeTracker({ timeRef, paused }) {
     _s();
+    const totalWorkRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(0);
+    const lastTimeRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(0);
+    const wasPausedRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"])({
         "TimeTracker.useFrame": ({ clock })=>{
-            timeRef.current = clock.getElapsedTime();
+            const current = clock.getElapsedTime();
+            const delta = current - lastTimeRef.current;
+            lastTimeRef.current = current;
+            if (!wasPausedRef.current && paused) {
+                wasPausedRef.current = true;
+            } else if (wasPausedRef.current && !paused) {
+                wasPausedRef.current = false;
+            }
+            if (!paused) {
+                totalWorkRef.current += delta;
+            }
+            timeRef.current = totalWorkRef.current;
         }
     }["TimeTracker.useFrame"]);
     return null;
 }
-_s(TimeTracker, "xC67171NPRcCAzsbrenetil66NI=", false, function() {
+_s(TimeTracker, "YH7is1t4xMm2e77NlGcgnmrOG8M=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"]
     ];
@@ -1074,56 +1423,16 @@ const planetData = {
         description: 'Карликовая планета.'
     }
 };
-function OrbitController({ targetPlanet }) {
-    _s();
-    const controlsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
-    const targetRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Vector3"](0, 0, 0));
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"])({
-        "OrbitController.useFrame": ({ clock })=>{
-            if (targetPlanet && planetDistances[targetPlanet] !== undefined) {
-                const distance = planetDistances[targetPlanet];
-                const speed = planetSpeeds[targetPlanet] || 0.3;
-                const t = clock.getElapsedTime();
-                const x = Math.sin(t * speed) * distance;
-                const z = Math.cos(t * speed) * distance;
-                targetRef.current.set(x, 0, z);
-            } else {
-                targetRef.current.set(0, 0, 0);
-            }
-            if (controlsRef.current) {
-                controlsRef.current.target.copy(targetRef.current);
-                controlsRef.current.update();
-            }
-        }
-    }["OrbitController.useFrame"]);
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$OrbitControls$2e$js__$5b$client$5d$__$28$ecmascript$29$__["OrbitControls"], {
-        ref: controlsRef,
-        enableRotate: true,
-        enableZoom: true,
-        minDistance: 3,
-        maxDistance: 150
-    }, void 0, false, {
-        fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 58,
-        columnNumber: 5
-    }, this);
-}
-_s(OrbitController, "Oj0em03/ZT4qaE8qZpq8qwPUnGI=", false, function() {
-    return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"]
-    ];
-});
-_c = OrbitController;
 function GlobeScene() {
-    _s1();
+    _s();
     const [selectedPlanet, setSelectedPlanet] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [targetPlanet, setTargetPlanet] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [asteroidActive, setAsteroidActive] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [explosionActive, setExplosionActive] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isPaused, setIsPaused] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const pauseTimeRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(0);
-    const resumeTimeRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(0);
     const clockTimeRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(0);
+    const explosionPosRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Vector3"]());
+    const asteroidTargetRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const handleSelect = (name, description)=>{
         setSelectedPlanet(selectedPlanet === name ? null : name);
         setTargetPlanet(null);
@@ -1136,15 +1445,22 @@ function GlobeScene() {
     };
     const handleLaunchAsteroid = ()=>{
         if (selectedPlanet && selectedPlanet !== 'pluto') {
-            pauseTimeRef.current = clockTimeRef.current;
-            resumeTimeRef.current = 0;
+            const distance = planetDistances[selectedPlanet];
+            const speed = planetSpeeds[selectedPlanet];
+            const x = Math.sin(clockTimeRef.current * speed) * distance;
+            const z = Math.cos(clockTimeRef.current * speed) * distance;
+            asteroidTargetRef.current = {
+                x,
+                z
+            };
+            explosionPosRef.current.set(x, 0, z);
             setIsPaused(true);
             setAsteroidActive(true);
             setExplosionActive(false);
         }
     };
     const handleResetAsteroid = ()=>{
-        resumeTimeRef.current = pauseTimeRef.current;
+        asteroidTargetRef.current = null;
         setIsPaused(false);
         setAsteroidActive(false);
         setExplosionActive(false);
@@ -1177,17 +1493,18 @@ function GlobeScene() {
                 },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$TimeTracker$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
-                        timeRef: clockTimeRef
+                        timeRef: clockTimeRef,
+                        paused: isPaused
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 111,
+                        lineNumber: 88,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ambientLight", {
                         intensity: 0.1
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 112,
+                        lineNumber: 89,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pointLight", {
@@ -1201,7 +1518,7 @@ function GlobeScene() {
                         color: "#ffffff"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 113,
+                        lineNumber: 90,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Stars$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Stars"], {
@@ -1214,12 +1531,12 @@ function GlobeScene() {
                         speed: 1
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 115,
+                        lineNumber: 92,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Sun$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 117,
+                        lineNumber: 94,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1227,7 +1544,7 @@ function GlobeScene() {
                         color: "#666666"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 119,
+                        lineNumber: 96,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1240,20 +1557,18 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'mercury',
                         textureUrl: "/textures/Mercury/mercury.jpg",
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 120,
-                        columnNumber: 1
+                        lineNumber: 97,
+                        columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
                         distance: 12,
                         color: "#665533"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 122,
+                        lineNumber: 99,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1266,12 +1581,10 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'venus',
                         textureUrl: "/textures/Venus/venus_surface.jpg",
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 123,
+                        lineNumber: 100,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1279,7 +1592,7 @@ function GlobeScene() {
                         color: "#334466"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 125,
+                        lineNumber: 102,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1292,12 +1605,10 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'earth',
                         textureUrl: "/textures/Earth/earth.jpg",
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 126,
+                        lineNumber: 103,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1305,7 +1616,7 @@ function GlobeScene() {
                         color: "#553322"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 128,
+                        lineNumber: 105,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1318,12 +1629,10 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'mars',
                         textureUrl: "/textures/Mars/8k_mars.jpg",
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 129,
+                        lineNumber: 106,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1331,7 +1640,7 @@ function GlobeScene() {
                         color: "#554433"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 131,
+                        lineNumber: 108,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1344,12 +1653,10 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'jupiter',
                         textureUrl: "/textures/Jupiter/jupiter.jpg",
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 132,
+                        lineNumber: 109,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1357,7 +1664,7 @@ function GlobeScene() {
                         color: "#aa9977"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 134,
+                        lineNumber: 111,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1371,12 +1678,10 @@ function GlobeScene() {
                         isSelected: selectedPlanet === 'saturn',
                         textureUrl: "/textures/Saturn/saturn.jpg",
                         ringTextureUrl: "/textures/Saturn/saturn_ring_alpha.png",
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 135,
+                        lineNumber: 112,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1384,7 +1689,7 @@ function GlobeScene() {
                         color: "#6699cc"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 137,
+                        lineNumber: 114,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1397,12 +1702,10 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'uranus',
                         textureUrl: "/textures/Uranus/uranus.jpg",
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 138,
+                        lineNumber: 115,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1410,7 +1713,7 @@ function GlobeScene() {
                         color: "#4466aa"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 140,
+                        lineNumber: 117,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1423,12 +1726,10 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'neptune',
                         textureUrl: "/textures/Neptune/neptune.jpg",
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 141,
+                        lineNumber: 118,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1436,7 +1737,7 @@ function GlobeScene() {
                         color: "#887766"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 143,
+                        lineNumber: 120,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1448,46 +1749,42 @@ function GlobeScene() {
                         description: planetData.pluto.description,
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'pluto',
-                        paused: isPaused,
-                        pauseTimeRef: pauseTimeRef,
-                        resumeTimeRef: resumeTimeRef
+                        clockTimeRef: clockTimeRef
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 144,
+                        lineNumber: 121,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitController, {
                         targetPlanet: targetPlanet
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 146,
+                        lineNumber: 123,
                         columnNumber: 9
                     }, this),
-                    asteroidActive && selectedPlanet && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Asteroid$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
-                        targetPlanet: selectedPlanet,
-                        targetDistance: planetDistances[selectedPlanet] || 18,
+                    asteroidActive && asteroidTargetRef.current && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Asteroid$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
+                        targetX: asteroidTargetRef.current.x,
+                        targetZ: asteroidTargetRef.current.z,
                         onImpact: handleImpact,
-                        active: asteroidActive,
-                        pauseTimeRef: pauseTimeRef,
-                        targetSpeed: planetSpeeds[selectedPlanet] || 0.3
+                        active: asteroidActive
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 149,
+                        lineNumber: 126,
                         columnNumber: 11
                     }, this),
-                    explosionActive && selectedPlanet && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ExplosionEffect$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
-                        planetDistance: planetDistances[selectedPlanet] || 18,
-                        planetSize: planetSizes[selectedPlanet] || 1,
+                    explosionActive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ExplosionEffect$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
+                        explosionPosition: explosionPosRef.current,
+                        planetSize: planetSizes[selectedPlanet || 'earth'] || 1,
                         active: explosionActive
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 160,
+                        lineNumber: 135,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 110,
+                lineNumber: 87,
                 columnNumber: 7
             }, this),
             selectedPlanet && selectedPlanet !== 'pluto' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1513,7 +1810,7 @@ function GlobeScene() {
                         children: planetData[selectedPlanet].name
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 170,
+                        lineNumber: 145,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1524,7 +1821,7 @@ function GlobeScene() {
                         children: planetData[selectedPlanet].description
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 171,
+                        lineNumber: 146,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1544,7 +1841,7 @@ function GlobeScene() {
                         children: "Перейти к планете"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 172,
+                        lineNumber: 147,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1565,7 +1862,7 @@ function GlobeScene() {
                         children: isPaused ? 'Продолжить' : 'Запустить астероид'
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 175,
+                        lineNumber: 150,
                         columnNumber: 11
                     }, this),
                     isPaused && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1584,13 +1881,13 @@ function GlobeScene() {
                         children: "Сбросить"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 179,
+                        lineNumber: 154,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 169,
+                lineNumber: 144,
                 columnNumber: 9
             }, this),
             selectedPlanet === 'pluto' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1616,7 +1913,7 @@ function GlobeScene() {
                         children: planetData.pluto.name
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 188,
+                        lineNumber: 163,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1627,7 +1924,7 @@ function GlobeScene() {
                         children: planetData.pluto.description
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 189,
+                        lineNumber: 164,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1646,13 +1943,13 @@ function GlobeScene() {
                         children: "Перейти к планете"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 190,
+                        lineNumber: 165,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 187,
+                lineNumber: 162,
                 columnNumber: 9
             }, this),
             targetPlanet && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1675,18 +1972,58 @@ function GlobeScene() {
                 children: "Вернуться к Солнцу"
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 197,
+                lineNumber: 172,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 109,
+        lineNumber: 86,
         columnNumber: 5
     }, this);
 }
-_s1(GlobeScene, "CqqSEB/h9yd+Egvu0BJw6E1S0PM=");
-_c1 = GlobeScene;
+_s(GlobeScene, "XFN/B9A2fsA/tHDnICK3wfd1IaQ=");
+_c = GlobeScene;
+function OrbitController({ targetPlanet }) {
+    _s1();
+    const controlsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const targetRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Vector3"](0, 0, 0));
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"])({
+        "OrbitController.useFrame": ({ clock })=>{
+            if (targetPlanet && planetDistances[targetPlanet] !== undefined) {
+                const distance = planetDistances[targetPlanet];
+                const speed = planetSpeeds[targetPlanet] || 0.3;
+                const t = clock.getElapsedTime();
+                const x = Math.sin(t * speed) * distance;
+                const z = Math.cos(t * speed) * distance;
+                targetRef.current.set(x, 0, z);
+            } else {
+                targetRef.current.set(0, 0, 0);
+            }
+            if (controlsRef.current) {
+                controlsRef.current.target.copy(targetRef.current);
+                controlsRef.current.update();
+            }
+        }
+    }["OrbitController.useFrame"]);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$OrbitControls$2e$js__$5b$client$5d$__$28$ecmascript$29$__["OrbitControls"], {
+        ref: controlsRef,
+        enableRotate: true,
+        enableZoom: true,
+        minDistance: 3,
+        maxDistance: 150
+    }, void 0, false, {
+        fileName: "[project]/components/GlobeScene.tsx",
+        lineNumber: 202,
+        columnNumber: 5
+    }, this);
+}
+_s1(OrbitController, "Oj0em03/ZT4qaE8qZpq8qwPUnGI=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"]
+    ];
+});
+_c1 = OrbitController;
 function OrbitLine({ distance, color }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
         rotation: [
@@ -1703,7 +2040,7 @@ function OrbitLine({ distance, color }) {
                 ]
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 208,
+                lineNumber: 209,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
@@ -1713,20 +2050,20 @@ function OrbitLine({ distance, color }) {
                 side: 2
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 209,
+                lineNumber: 210,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 207,
+        lineNumber: 208,
         columnNumber: 5
     }, this);
 }
 _c2 = OrbitLine;
 var _c, _c1, _c2;
-__turbopack_context__.k.register(_c, "OrbitController");
-__turbopack_context__.k.register(_c1, "GlobeScene");
+__turbopack_context__.k.register(_c, "GlobeScene");
+__turbopack_context__.k.register(_c1, "OrbitController");
 __turbopack_context__.k.register(_c2, "OrbitLine");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
