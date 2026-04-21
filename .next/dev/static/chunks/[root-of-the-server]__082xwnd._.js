@@ -581,8 +581,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$ind
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__ = __turbopack_context__.i("[project]/node_modules/@react-three/fiber/dist/events-760a1017.esm.js [client] (ecmascript) <export D as useFrame>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$web$2f$Html$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@react-three/drei/web/Html.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Texture$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@react-three/drei/core/Texture.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/three/build/three.core.js [client] (ecmascript)");
 ;
-var _s = __turbopack_context__.k.signature();
+var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
+;
 ;
 ;
 ;
@@ -597,9 +599,10 @@ const planetNames = {
     neptune: 'Нептун',
     pluto: 'Плутон'
 };
-function Planet({ name, distance, speed, size, color, description, onSelect, isSelected, textureUrl, ringTextureUrl, clockTimeRef }) {
+function Planet({ name, distance, speed, size, color, description, onSelect, isSelected, textureUrl, ringTextureUrl, clockTimeRef, isDamaged }) {
     _s();
     const groupRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const meshRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const [hovered, setHovered] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const texture = textureUrl ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Texture$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useTexture"])(textureUrl) : null;
     const ringTexture = ringTextureUrl ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Texture$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useTexture"])(ringTextureUrl) : null;
@@ -610,12 +613,20 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                 groupRef.current.position.x = Math.sin(t * speed) * distance;
                 groupRef.current.position.z = Math.cos(t * speed) * distance;
             }
+            if (meshRef.current && isDamaged) {
+                const mat = meshRef.current.material;
+                const pulse = Math.sin(performance.now() * 0.008) * 0.3 + 0.5;
+                mat.emissive.setRGB(1, 0.2, 0);
+                mat.emissiveIntensity = pulse;
+                mat.roughness = 0.95;
+            }
         }
     }["Planet.useFrame"]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("group", {
         ref: groupRef,
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                ref: meshRef,
                 onClick: ()=>onSelect(name, description),
                 onPointerOver: ()=>setHovered(true),
                 onPointerOut: ()=>setHovered(false),
@@ -628,35 +639,42 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         ]
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 41,
+                        lineNumber: 57,
                         columnNumber: 9
                     }, this),
                     texture ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshStandardMaterial", {
                         map: texture,
-                        roughness: 0.6,
+                        roughness: isDamaged ? 0.95 : 0.6,
                         metalness: 0.1,
-                        emissive: isSelected ? '#ffffff' : hovered ? '#222222' : '#000000',
-                        emissiveIntensity: isSelected ? 0.2 : 0
+                        emissive: isSelected ? '#ffffff' : isDamaged ? '#ff2200' : '#000000',
+                        emissiveIntensity: isSelected ? 0.2 : isDamaged ? 0.5 : 0
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 43,
+                        lineNumber: 59,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshStandardMaterial", {
                         color: color,
-                        roughness: 0.6,
+                        roughness: isDamaged ? 0.95 : 0.6,
                         metalness: 0.1,
-                        emissive: isSelected ? color : hovered ? '#222222' : '#000000',
-                        emissiveIntensity: isSelected ? 0.3 : 0
+                        emissive: isSelected ? color : isDamaged ? '#ff2200' : '#000000',
+                        emissiveIntensity: isSelected ? 0.3 : isDamaged ? 0.5 : 0
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 45,
+                        lineNumber: 67,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/Planet.tsx",
-                lineNumber: 40,
+                lineNumber: 51,
                 columnNumber: 7
+            }, this),
+            isDamaged && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CraterFireEffect, {
+                size: size
+            }, void 0, false, {
+                fileName: "[project]/components/Planet.tsx",
+                lineNumber: 77,
+                columnNumber: 21
             }, this),
             name === 'saturn' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
                 rotation: [
@@ -673,7 +691,7 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         ]
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 50,
+                        lineNumber: 81,
                         columnNumber: 11
                     }, this),
                     ringTexture ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
@@ -683,7 +701,7 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         side: 2
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 52,
+                        lineNumber: 83,
                         columnNumber: 13
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
                         color: "#aa8866",
@@ -692,13 +710,13 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                         side: 2
                     }, void 0, false, {
                         fileName: "[project]/components/Planet.tsx",
-                        lineNumber: 54,
+                        lineNumber: 85,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/Planet.tsx",
-                lineNumber: 49,
+                lineNumber: 80,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$web$2f$Html$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Html"], {
@@ -725,22 +743,22 @@ function Planet({ name, distance, speed, size, color, description, onSelect, isS
                     children: planetNames[name] || name
                 }, void 0, false, {
                     fileName: "[project]/components/Planet.tsx",
-                    lineNumber: 59,
+                    lineNumber: 90,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/components/Planet.tsx",
-                lineNumber: 58,
+                lineNumber: 89,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/Planet.tsx",
-        lineNumber: 39,
+        lineNumber: 50,
         columnNumber: 5
     }, this);
 }
-_s(Planet, "KeE8aC0bHQ+Fdwhmu6ruj9Crd/Q=", false, function() {
+_s(Planet, "Wg20UzvLIoMoBbi2a5WNvBzF+9M=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Texture$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useTexture"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Texture$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useTexture"],
@@ -748,9 +766,228 @@ _s(Planet, "KeE8aC0bHQ+Fdwhmu6ruj9Crd/Q=", false, function() {
     ];
 });
 _c = Planet;
+function CraterFireEffect({ size }) {
+    _s1();
+    const innerGlowRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const outerGlowRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const sparksRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const lightRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const sparkPositions = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].useMemo({
+        "CraterFireEffect.useMemo[sparkPositions]": ()=>{
+            const positions = new Float32Array(50 * 3);
+            for(let i = 0; i < 50; i++){
+                const angle = Math.random() * Math.PI * 2;
+                const radius = Math.random() * size * 0.3;
+                const height = Math.random() * size * 0.5;
+                positions[i * 3] = Math.cos(angle) * radius;
+                positions[i * 3 + 1] = height;
+                positions[i * 3 + 2] = Math.sin(angle) * radius;
+            }
+            return positions;
+        }
+    }["CraterFireEffect.useMemo[sparkPositions]"], [
+        size
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"])({
+        "CraterFireEffect.useFrame": ({ clock })=>{
+            const t = clock.getElapsedTime();
+            const pulse = Math.sin(t * 12) * 0.4 + 0.6;
+            const flicker = Math.sin(t * 23) * 0.2 + 0.8;
+            if (innerGlowRef.current) {
+                const mat = innerGlowRef.current.material;
+                mat.opacity = pulse;
+            }
+            if (outerGlowRef.current) {
+                const mat = outerGlowRef.current.material;
+                mat.opacity = pulse * 0.5;
+            }
+            if (lightRef.current) {
+                lightRef.current.intensity = 5 * flicker;
+            }
+            if (sparksRef.current) {
+                const positions = sparksRef.current.geometry.attributes.position.array;
+                for(let i = 0; i < 50; i++){
+                    const idx = i * 3;
+                    positions[idx + 1] += 0.02;
+                    if (positions[idx + 1] > size * 0.5) {
+                        positions[idx + 1] = 0;
+                    }
+                }
+                sparksRef.current.geometry.attributes.position.needsUpdate = true;
+            }
+        }
+    }["CraterFireEffect.useFrame"]);
+    const craterPos = [
+        size * 0.5,
+        size * 0.4,
+        size * 0.6
+    ];
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("group", {
+        position: craterPos,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                rotation: [
+                    0,
+                    0,
+                    0
+                ],
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circleGeometry", {
+                        args: [
+                            size * 0.2,
+                            32
+                        ]
+                    }, void 0, false, {
+                        fileName: "[project]/components/Planet.tsx",
+                        lineNumber: 163,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
+                        color: "#0a0500",
+                        side: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["DoubleSide"]
+                    }, void 0, false, {
+                        fileName: "[project]/components/Planet.tsx",
+                        lineNumber: 164,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/Planet.tsx",
+                lineNumber: 162,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                ref: innerGlowRef,
+                position: [
+                    0,
+                    0.01,
+                    0
+                ],
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circleGeometry", {
+                        args: [
+                            size * 0.18,
+                            32
+                        ]
+                    }, void 0, false, {
+                        fileName: "[project]/components/Planet.tsx",
+                        lineNumber: 169,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
+                        color: "#ff6600",
+                        transparent: true,
+                        opacity: 0.8,
+                        side: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["DoubleSide"]
+                    }, void 0, false, {
+                        fileName: "[project]/components/Planet.tsx",
+                        lineNumber: 170,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/Planet.tsx",
+                lineNumber: 168,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("mesh", {
+                ref: outerGlowRef,
+                position: [
+                    0,
+                    0.02,
+                    0
+                ],
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circleGeometry", {
+                        args: [
+                            size * 0.25,
+                            32
+                        ]
+                    }, void 0, false, {
+                        fileName: "[project]/components/Planet.tsx",
+                        lineNumber: 180,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
+                        color: "#ff3300",
+                        transparent: true,
+                        opacity: 0.4,
+                        side: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["DoubleSide"]
+                    }, void 0, false, {
+                        fileName: "[project]/components/Planet.tsx",
+                        lineNumber: 181,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/Planet.tsx",
+                lineNumber: 179,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("points", {
+                ref: sparksRef,
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("bufferGeometry", {
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("bufferAttribute", {
+                            attach: "attributes-position",
+                            count: 50,
+                            array: sparkPositions,
+                            itemSize: 3
+                        }, void 0, false, {
+                            fileName: "[project]/components/Planet.tsx",
+                            lineNumber: 192,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/components/Planet.tsx",
+                        lineNumber: 191,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pointsMaterial", {
+                        size: size * 0.08,
+                        color: "#ffaa00",
+                        transparent: true,
+                        opacity: 0.9,
+                        blending: __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["AdditiveBlending"],
+                        depthWrite: false
+                    }, void 0, false, {
+                        fileName: "[project]/components/Planet.tsx",
+                        lineNumber: 199,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/components/Planet.tsx",
+                lineNumber: 190,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pointLight", {
+                ref: lightRef,
+                color: "#ff6600",
+                intensity: 5,
+                distance: size * 3
+            }, void 0, false, {
+                fileName: "[project]/components/Planet.tsx",
+                lineNumber: 210,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/components/Planet.tsx",
+        lineNumber: 160,
+        columnNumber: 5
+    }, this);
+}
+_s1(CraterFireEffect, "6SjAvZ+iNnLGB7JncXwtnbk547U=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$fiber$2f$dist$2f$events$2d$760a1017$2e$esm$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__D__as__useFrame$3e$__["useFrame"]
+    ];
+});
+_c1 = CraterFireEffect;
 const __TURBOPACK__default__export__ = Planet;
-var _c;
+var _c, _c1;
 __turbopack_context__.k.register(_c, "Planet");
+__turbopack_context__.k.register(_c1, "CraterFireEffect");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
@@ -1430,6 +1667,7 @@ function GlobeScene() {
     const [asteroidActive, setAsteroidActive] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [explosionActive, setExplosionActive] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isPaused, setIsPaused] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [damagedPlanets, setDamagedPlanets] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(new Set());
     const clockTimeRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(0);
     const explosionPosRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$three$2f$build$2f$three$2e$core$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Vector3"]());
     const asteroidTargetRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useRef"])(null);
@@ -1464,10 +1702,17 @@ function GlobeScene() {
         setIsPaused(false);
         setAsteroidActive(false);
         setExplosionActive(false);
+        clearDamage();
     };
     const handleImpact = ()=>{
         setAsteroidActive(false);
         setExplosionActive(true);
+        if (selectedPlanet) {
+            setDamagedPlanets((prev)=>new Set(prev).add(selectedPlanet));
+        }
+    };
+    const clearDamage = ()=>{
+        setDamagedPlanets(new Set());
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         style: {
@@ -1497,14 +1742,14 @@ function GlobeScene() {
                         paused: isPaused
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 88,
+                        lineNumber: 97,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ambientLight", {
                         intensity: 0.1
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 89,
+                        lineNumber: 98,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pointLight", {
@@ -1518,7 +1763,7 @@ function GlobeScene() {
                         color: "#ffffff"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 90,
+                        lineNumber: 99,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$react$2d$three$2f$drei$2f$core$2f$Stars$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Stars"], {
@@ -1531,12 +1776,12 @@ function GlobeScene() {
                         speed: 1
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 92,
+                        lineNumber: 101,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Sun$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 94,
+                        lineNumber: 103,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1544,7 +1789,7 @@ function GlobeScene() {
                         color: "#666666"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 96,
+                        lineNumber: 105,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1557,10 +1802,11 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'mercury',
                         textureUrl: "/textures/Mercury/mercury.jpg",
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('mercury')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 97,
+                        lineNumber: 106,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1568,7 +1814,7 @@ function GlobeScene() {
                         color: "#665533"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 99,
+                        lineNumber: 108,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1581,10 +1827,11 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'venus',
                         textureUrl: "/textures/Venus/venus_surface.jpg",
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('venus')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 100,
+                        lineNumber: 109,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1592,7 +1839,7 @@ function GlobeScene() {
                         color: "#334466"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 102,
+                        lineNumber: 111,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1605,10 +1852,11 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'earth',
                         textureUrl: "/textures/Earth/earth.jpg",
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('earth')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 103,
+                        lineNumber: 112,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1616,7 +1864,7 @@ function GlobeScene() {
                         color: "#553322"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 105,
+                        lineNumber: 114,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1629,10 +1877,11 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'mars',
                         textureUrl: "/textures/Mars/8k_mars.jpg",
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('mars')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 106,
+                        lineNumber: 115,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1640,7 +1889,7 @@ function GlobeScene() {
                         color: "#554433"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 108,
+                        lineNumber: 117,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1653,10 +1902,11 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'jupiter',
                         textureUrl: "/textures/Jupiter/jupiter.jpg",
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('jupiter')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 109,
+                        lineNumber: 118,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1664,7 +1914,7 @@ function GlobeScene() {
                         color: "#aa9977"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 111,
+                        lineNumber: 120,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1678,10 +1928,11 @@ function GlobeScene() {
                         isSelected: selectedPlanet === 'saturn',
                         textureUrl: "/textures/Saturn/saturn.jpg",
                         ringTextureUrl: "/textures/Saturn/saturn_ring_alpha.png",
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('saturn')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 112,
+                        lineNumber: 121,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1689,7 +1940,7 @@ function GlobeScene() {
                         color: "#6699cc"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 114,
+                        lineNumber: 123,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1702,10 +1953,11 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'uranus',
                         textureUrl: "/textures/Uranus/uranus.jpg",
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('uranus')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 115,
+                        lineNumber: 124,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1713,7 +1965,7 @@ function GlobeScene() {
                         color: "#4466aa"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 117,
+                        lineNumber: 126,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1726,10 +1978,11 @@ function GlobeScene() {
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'neptune',
                         textureUrl: "/textures/Neptune/neptune.jpg",
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('neptune')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 118,
+                        lineNumber: 127,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitLine, {
@@ -1737,7 +1990,7 @@ function GlobeScene() {
                         color: "#887766"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 120,
+                        lineNumber: 129,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Planet$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1749,17 +2002,18 @@ function GlobeScene() {
                         description: planetData.pluto.description,
                         onSelect: handleSelect,
                         isSelected: selectedPlanet === 'pluto',
-                        clockTimeRef: clockTimeRef
+                        clockTimeRef: clockTimeRef,
+                        isDamaged: damagedPlanets.has('pluto')
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 121,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OrbitController, {
                         targetPlanet: targetPlanet
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 123,
+                        lineNumber: 132,
                         columnNumber: 9
                     }, this),
                     asteroidActive && asteroidTargetRef.current && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Asteroid$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1769,7 +2023,7 @@ function GlobeScene() {
                         active: asteroidActive
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 126,
+                        lineNumber: 135,
                         columnNumber: 11
                     }, this),
                     explosionActive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ExplosionEffect$2e$tsx__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1778,13 +2032,13 @@ function GlobeScene() {
                         active: explosionActive
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 135,
+                        lineNumber: 144,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 87,
+                lineNumber: 96,
                 columnNumber: 7
             }, this),
             selectedPlanet && selectedPlanet !== 'pluto' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1810,7 +2064,7 @@ function GlobeScene() {
                         children: planetData[selectedPlanet].name
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 145,
+                        lineNumber: 154,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1821,7 +2075,7 @@ function GlobeScene() {
                         children: planetData[selectedPlanet].description
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 146,
+                        lineNumber: 155,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1841,7 +2095,7 @@ function GlobeScene() {
                         children: "Перейти к планете"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 147,
+                        lineNumber: 156,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1862,7 +2116,7 @@ function GlobeScene() {
                         children: isPaused ? 'Продолжить' : 'Запустить астероид'
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 150,
+                        lineNumber: 159,
                         columnNumber: 11
                     }, this),
                     isPaused && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1881,13 +2135,13 @@ function GlobeScene() {
                         children: "Сбросить"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 154,
+                        lineNumber: 163,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 144,
+                lineNumber: 153,
                 columnNumber: 9
             }, this),
             selectedPlanet === 'pluto' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1913,7 +2167,7 @@ function GlobeScene() {
                         children: planetData.pluto.name
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 163,
+                        lineNumber: 172,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1924,7 +2178,7 @@ function GlobeScene() {
                         children: planetData.pluto.description
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 164,
+                        lineNumber: 173,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1943,13 +2197,13 @@ function GlobeScene() {
                         children: "Перейти к планете"
                     }, void 0, false, {
                         fileName: "[project]/components/GlobeScene.tsx",
-                        lineNumber: 165,
+                        lineNumber: 174,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 162,
+                lineNumber: 171,
                 columnNumber: 9
             }, this),
             targetPlanet && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1972,17 +2226,17 @@ function GlobeScene() {
                 children: "Вернуться к Солнцу"
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 172,
+                lineNumber: 181,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 86,
+        lineNumber: 95,
         columnNumber: 5
     }, this);
 }
-_s(GlobeScene, "XFN/B9A2fsA/tHDnICK3wfd1IaQ=");
+_s(GlobeScene, "Ni/GyNYWSG0wWR8FYMUuAx1R4DU=");
 _c = GlobeScene;
 function OrbitController({ targetPlanet }) {
     _s1();
@@ -2014,7 +2268,7 @@ function OrbitController({ targetPlanet }) {
         maxDistance: 150
     }, void 0, false, {
         fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 202,
+        lineNumber: 211,
         columnNumber: 5
     }, this);
 }
@@ -2040,7 +2294,7 @@ function OrbitLine({ distance, color }) {
                 ]
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 209,
+                lineNumber: 218,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("meshBasicMaterial", {
@@ -2050,13 +2304,13 @@ function OrbitLine({ distance, color }) {
                 side: 2
             }, void 0, false, {
                 fileName: "[project]/components/GlobeScene.tsx",
-                lineNumber: 210,
+                lineNumber: 219,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/GlobeScene.tsx",
-        lineNumber: 208,
+        lineNumber: 217,
         columnNumber: 5
     }, this);
 }
